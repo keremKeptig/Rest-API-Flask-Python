@@ -1,4 +1,5 @@
 from flask import Flask, jsonify
+import redis
 import secrets
 from flask_smorest import Api
 from flask_jwt_extended import JWTManager
@@ -9,14 +10,17 @@ from resources.tag import blp as TagBlueprint
 from resources.user import blp as UserBlueprint
 from blocklist import BLOCKLIST
 from dotenv import load_dotenv
+from rq import Queue
 
 from db import db
 import models
 import os
 
+
 def create_app(db_url=None):
     app = Flask(__name__)
     load_dotenv()
+
 
     app.config["PROPAGATE_EXCEPTIONS"] = True
     app.config["API_TITLE"] = "Stores REST API"
