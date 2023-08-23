@@ -80,11 +80,11 @@ def run_migrations_online():
     # reference: http://alembic.zzzcomputing.com/en/latest/cookbook.html
     def process_revision_directives(context, revision, directives):
         print("void")
-        # if getattr(config.cmd_opts, 'autogenerate', False):
-        #     script = directives[0]
-        #     if script.upgrade_ops.is_empty():
-        #         directives[:] = []
-        #         logger.info('No changes in schema detected.')
+        if getattr(config.cmd_opts, 'autogenerate', False):
+            script = directives[0]
+            if script.upgrade_ops.is_empty():
+                directives[:] = []
+                logger.info('No changes in schema detected.')
 
     connectable = get_engine()
 
