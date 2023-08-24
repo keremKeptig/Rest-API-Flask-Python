@@ -15,15 +15,29 @@ from schemas import UserSchema, UserRegisterSchema
 from models import UserModel
 from tasks import send_user_registration_email
 from rq import Queue
+import jinja2
+
+
 
 blp = Blueprint("Users", "users", description="Operations on users")
+template_loader = jinja2.FileSystemLoader("templates")
+template_env = jinja2.Environment(loader=template_loader)
+def render_template(template_filename, **context):
+    return template_env.get_template(template_filename).render(**context)
 
-connection = redis.from_url(
-    os.getenv("REDIS_URL")
-)  # Get this from Render.com or run in Docker
-queue = Queue("emails", connection=connection)
-
-
+def send_simple_message(to, subject, body, html):
+    DOMAIN = os.getenv("MAILGUN_DOMAIN")
+    return requests.post(
+        f"https://api.mailgun.net/v3/{DOMAIN}/messages",
+        auth=("api", os.getenv("MAILGUN_API_KEY")),
+        data={
+            "from": f"Kerem Keptiğ <mailgun@{DOMAIN}>",
+            "to": [to],
+            "subject": subject,
+            "text": body,
+            "html": html,
+        },
+    )
 @blp.route("/register")
 class UserRegister(MethodView):
     @blp.arguments(UserRegisterSchema)
@@ -37,7 +51,9 @@ class UserRegister(MethodView):
         db.session.add(user)
         db.session.commit()
 
-        queue.enqueue(send_user_registration_email, user.email, user.username)
+        send_simple_message(to=user.email, subject="Successfully signed up"
+                            , body=f"Hi {user.username} You have successfully signed up to the stores REST API.",
+                            html=render_template("email/action.html", username=user.username))
 
         return {"message": "User created successfully"}, 201
 
