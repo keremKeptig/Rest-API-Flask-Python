@@ -13,8 +13,6 @@ from blocklist import BLOCKLIST
 from db import db
 from schemas import UserSchema, UserRegisterSchema
 from models import UserModel
-from tasks import send_user_registration_email
-from rq import Queue
 import jinja2
 
 
