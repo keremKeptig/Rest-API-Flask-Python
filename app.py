@@ -1,6 +1,4 @@
 from flask import Flask, jsonify
-import redis
-import secrets
 from flask_smorest import Api
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
@@ -10,10 +8,8 @@ from resources.tag import blp as TagBlueprint
 from resources.user import blp as UserBlueprint
 from blocklist import BLOCKLIST
 from dotenv import load_dotenv
-from rq import Queue
 
 from db import db
-import models
 import os
 
 
