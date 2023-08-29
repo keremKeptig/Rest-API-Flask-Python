@@ -1,7 +1,7 @@
-from db import db
+from database import db
 
 
-class UserModel(db.Model):
+class UserTable(db.Model):
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True)

@@ -1,6 +1,6 @@
-from db import db
+from database import db
 
-class StoreModel(db.Model):
+class StoreTable(db.Model):
     __tablename__ = "stores"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -8,5 +8,5 @@ class StoreModel(db.Model):
     # items now associated with corresponding store
     # lazy = dynamic, means don't add to database now
     # cascade because if we delete store, all items should be deleted that are associated with that store
-    items = db.relationship("ItemModel", back_populates="store", lazy="dynamic", cascade="all, delete")
-    tags = db.relationship("TagModel", back_populates="store", lazy="dynamic")
+    items = db.relationship("ItemTable", back_populates="store", lazy="dynamic", cascade="all, delete")
+    tags = db.relationship("TagTable", back_populates="store", lazy="dynamic")

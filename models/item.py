@@ -1,6 +1,6 @@
-from db import db
+from database import db
 
-class ItemModel(db.Model):
+class ItemTable(db.Model):
     __tablename__ = "items"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -8,5 +8,5 @@ class ItemModel(db.Model):
     price = db.Column(db.Float(precision=2), unique=False, nullable=False)
     store_id = db.Column(db.Integer, db.ForeignKey("stores.id"), unique=False, nullable=False)
     # stores now associated with corresponding item
-    store = db.relationship("StoreModel", back_populates="items")
-    tags = db.relationship("TagModel", back_populates="items",secondary="items_tags")
+    store = db.relationship("StoreTable", back_populates="items")
+    tags = db.relationship("TagTable", back_populates="items",secondary="items_tags")
