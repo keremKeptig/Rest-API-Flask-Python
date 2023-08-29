@@ -4,7 +4,7 @@ from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
 from resources.item import blp as item_bp
 from resources.store import blp as store_bp
-from resources.tag import blp as tag_bp
+from resources.order import blp as order_bp
 from resources.user import blp as user_bp
 from list_block import BLOCKLIST
 from dotenv import load_dotenv
@@ -95,7 +95,7 @@ def create_app(db_url=None):
         db.create_all()
     api.register_blueprint(item_bp)
     api.register_blueprint(store_bp)
-    api.register_blueprint(tag_bp)
+    api.register_blueprint(order_bp)
     api.register_blueprint(user_bp)
 
     return app

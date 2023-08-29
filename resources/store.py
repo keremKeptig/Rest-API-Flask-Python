@@ -13,12 +13,12 @@ blp = Blueprint("Stores", "stores", description="Operations on stores")
 class Store(MethodView):
     @blp.response(200, StoreSchema)
     def get(self, store_id):
-        store = StoreModel.query.get_or_404(store_id)
+        store = StoreTable.query.get_or_404(store_id)
         return store
 
 
     def delete(self, store_id):
-        store = StoreModel.get_or_404(store_id)
+        store = StoreTable.get_or_404(store_id)
         db.session.delete(store)
         db.session.commit()
 
@@ -29,12 +29,12 @@ class Store(MethodView):
 class StoreList(MethodView):
     @blp.response(200, StoreSchema(many=True))
     def get(self):
-        return StoreModel.query.all()
+        return StoreTable.query.all()
 
     @blp.arguments(StoreSchema)
     @blp.response(201, StoreSchema)
     def post(self, store_data):
-        store = StoreModel(**store_data)
+        store = StoreTable(**store_data)
         try:
             db.session.add(store)
             db.session.commit()

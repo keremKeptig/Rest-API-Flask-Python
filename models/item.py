@@ -9,4 +9,4 @@ class ItemTable(db.Model):
     store_id = db.Column(db.Integer, db.ForeignKey("stores.id"), unique=False, nullable=False)
     # stores now associated with corresponding item
     store = db.relationship("StoreTable", back_populates="items")
-    tags = db.relationship("TagTable", back_populates="items",secondary="items_tags")
+    orders = db.relationship("OrderTable", back_populates="items",secondary="items_orders")

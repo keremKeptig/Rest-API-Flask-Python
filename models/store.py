@@ -9,4 +9,4 @@ class StoreTable(db.Model):
     # lazy = dynamic, means don't add to database now
     # cascade because if we delete store, all items should be deleted that are associated with that store
     items = db.relationship("ItemTable", back_populates="store", lazy="dynamic", cascade="all, delete")
-    tags = db.relationship("TagTable", back_populates="store", lazy="dynamic")
+    orders = db.relationship("OrderTable", back_populates="store", lazy="dynamic")
